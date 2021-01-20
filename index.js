@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const port = process.env.NODE_ENV == "development" ? process.env.DEVPORT : process.env.PORT;
+const port = process.env.PORT;
 
 const transporter = nodemailer.createTransport({
     service : process.env.EMAIL_SERVICE,
