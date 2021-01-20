@@ -31,10 +31,10 @@ app.post("/api/sendmail", (req, res) => {
         message : "Email sent successfully"
     }
 
-    if(!req.body["sendername"] || !req.body["to"] || !req.body["subject"] || !req.body["message"]){
+    if((!req.body["sendername"] || !req.body["to"] || !req.body["subject"]) || (!req.body["text"] && !req.body["html"])){
         res.statusCode = 400;
         response.responseCode = res.statusCode;
-        response.message = "sendername, to, subject and message is required for sending message"
+        response.message = "sendername, to, subject and text or html is required for sending message"
         res.end(JSON.stringify(response));
         return;
     }
@@ -42,9 +42,18 @@ app.post("/api/sendmail", (req, res) => {
     var mailOptions = {
         from: ""+req.body.sendername+" <"+process.env.EMAIL_ADDRESS+">",
         to: req.body.to,
-        subject: req.body.subject,
-        text: req.body.message
+        subject: req.body.subject 
     };
+
+    if(req.body["text"]){
+        mailOptions["text"] = req.body.text
+    }else{
+        mailOptions["html"] = req.body.html
+    }
+
+    if(req.body["cc"]){
+        mailOptions["cc"] = req.body.cc
+    }
 
     transporter.sendMail(mailOptions,(error,info) => {
         if(error){
