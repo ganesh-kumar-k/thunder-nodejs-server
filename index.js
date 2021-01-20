@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const nodemailer = require('nodemailer');
-process.env.NODE_ENV == "production" ? null : require('dotenv').config();
 
 const app = express();
 
