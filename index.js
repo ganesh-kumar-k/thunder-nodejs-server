@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get("/",(req, res) => {
-    res.send("Welcome to Vacuum server");
+    res.send("Welcome to Vacuum server" + process.env.EMAIL_ADDRESS +"pass" + process.env.EMAIL_PASSWORD + "/" +process.env.NODE_ENV + "/" +process.env.PORT);
     res.end();
 });
 
