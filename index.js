@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get("/",(req, res) => {
-    res.send("Welcome to Vacuum server" + process.env.EMAIL_ADDRESS +"pass" + process.env.EMAIL_PASSWORD + "/" +process.env.NODE_ENV + "/" +process.env.PORT);
+    res.send("Welcome to Vacuum server");
     res.end();
 });
 
@@ -31,16 +31,16 @@ app.post("/api/sendmail", (req, res) => {
         message : "Email sent successfully"
     }
 
-    if(!req.body["to"] || !req.body["subject"] || !req.body["message"]){
+    if(!req.body["sendername"] || !req.body["to"] || !req.body["subject"] || !req.body["message"]){
         res.statusCode = 400;
         response.responseCode = res.statusCode;
-        response.message = "to, subject and message is required for sending message"
+        response.message = "sendername, to, subject and message is required for sending message"
         res.end(JSON.stringify(response));
         return;
     }
 
     var mailOptions = {
-        from: process.env.EMAIL_ADDRESS,
+        from: ""+req.body.sendername+" <"+process.env.EMAIL_ADDRESS+">",
         to: req.body.to,
         subject: req.body.subject,
         text: req.body.message
